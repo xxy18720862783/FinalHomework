@@ -51,12 +51,137 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:showDividers="middle">
                 <ImageView
-                    android:layout_width="wrap_content"
+                    android:src="@drawable/bookshelf"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content">
-
                 </ImageView>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:orientation="vertical">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:orientation="horizontal">
+                            <ImageView
+                                android:src="@drawable/icon_list"
+                                android:layout_width="100dp"
+                                android:layout_height="50dp">
+                            </ImageView>
+                            <TextView
+                                android:text="Books"
+                                android:layout_width="100dp"
+                                android:layout_height="50dp">
+                            </TextView>
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:orientation="horizontal">
+                            <ImageView
+                                android:src="@drawable/icon_search"
+                                android:layout_width="100dp"
+                                android:layout_height="50dp">
+                            </ImageView>
+                            <TextView
+                                android:text="Search"
+                                android:layout_width="100dp"
+                                android:layout_height="50dp">
+                            </TextView>
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <TextView
+                            android:text="Labels"
+                            android:textSize="30sp"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp">
+                        </TextView>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="100dp"
+                            android:orientation="vertical">
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="50dp"
+                                android:orientation="horizontal">
+                                <ImageView
+                                    android:src="@drawable/icon_label"
+                                    android:layout_width="100dp"
+                                    android:layout_height="50dp">
+                                </ImageView>
+                                <TextView
+                                    android:text="Law"
+                                    android:layout_width="100dp"
+                                    android:layout_height="50dp">
+                                </TextView>
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="50dp"
+                                android:orientation="horizontal">
+                                <ImageView
+                                    android:src="@drawable/icon_addlabel"
+                                    android:layout_width="100dp"
+                                    android:layout_height="50dp">
+                                </ImageView>
+                                <TextView
+                                    android:text="Create New Laws"
+                                    android:layout_width="100dp"
+                                    android:layout_height="50dp">
+                                </TextView>
+                            </LinearLayout>
+                        </LinearLayout>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:orientation="vertical">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:orientation="horizontal">
+                            <ImageView
+                                android:src="@drawable/icon_settings"
+                                android:layout_width="100dp"
+                                android:layout_height="50dp">
+                            </ImageView>
+                            <TextView
+                                android:text="Books"
+                                android:layout_width="100dp"
+                                android:layout_height="50dp">
+                            </TextView>
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:orientation="horizontal">
+                            <ImageView
+                                android:src="@drawable/icon_about"
+                                android:layout_width="100dp"
+                                android:layout_height="50dp">
+                            </ImageView>
+                            <TextView
+                                android:text="Search"
+                                android:layout_width="100dp"
+                                android:layout_height="50dp">
+                            </TextView>
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
             </LinearLayout>
         </com.google.android.material.navigation.NavigationView>
 
