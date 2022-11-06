@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">FinalHomework</string>
+    <string name="string_confirmation">提示信息</string>
+    <string name="string_sure_to_delete">是否确定删除</string>
+    <string name="string_no">否</string>
+    <string name="string_yes">是</string>
+</resources>
