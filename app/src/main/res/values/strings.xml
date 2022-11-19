@@ -4,4 +4,6 @@
     <string name="string_sure_to_delete">是否确定删除</string>
     <string name="string_no">否</string>
     <string name="string_yes">是</string>
+    <string name="str_confirm">确定</string>
+    <string name="str_cancel">取消</string>
 </resources>

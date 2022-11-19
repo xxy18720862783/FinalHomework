@@ -3,8 +3,8 @@ package com.example.finalhomework.data;
 import java.io.Serializable;
 
 public class Book implements Serializable {
-    private String title;
-    private int resourceId;
+    public String title;
+    public int resourceId;
 
     public Book(String title, int resourceId) {
         this.title=title;

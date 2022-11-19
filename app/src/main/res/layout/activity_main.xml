@@ -51,9 +51,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:showDividers="middle">
+                android:orientation="vertical">
                 <ImageView
+                    android:layout_gravity="top|start"
                     android:src="@drawable/bookshelf"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -159,7 +159,7 @@
                                 android:layout_height="50dp">
                             </ImageView>
                             <TextView
-                                android:text="Books"
+                                android:text="Settings"
                                 android:layout_width="100dp"
                                 android:layout_height="50dp">
                             </TextView>
@@ -174,7 +174,7 @@
                                 android:layout_height="50dp">
                             </ImageView>
                             <TextView
-                                android:text="Search"
+                                android:text="About"
                                 android:layout_width="100dp"
                                 android:layout_height="50dp">
                             </TextView>

@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
     public static final int MENU_ID_ADD=1;
     public static final int MENU_ID_UPDATE=2;
     public static final int MENU_ID_DELETE=3;
-    private ArrayList<Book> books;//书本列表
+    public static ArrayList<Book> books;//书本列表
     private MyAdapater myAdapater;
     //增加
     private final ActivityResultLauncher<Intent> addDataLauncher=registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
@@ -70,13 +70,23 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             });
-
+    //搜索
+    private final ActivityResultLauncher<Intent> searchDataLauncher=registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if(null!=result){
+                    Intent intent=result.getData();
+                    if(result.getResultCode()==SearchActivity.RESULT_CODE_SUCCESS){
+                        Bundle bundle=intent.getExtras();
+                        String title=bundle.getString("title");
+                        Toast.makeText(MainActivity.this,title,Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
-        //setContentView之前调用，否则报错
+        supportRequestWindowFeature(Window.FEATURE_NO_TITLE);//setContentView之前调用，否则报错
         setContentView(R.layout.activity_main);
         //工具栏
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_main);
@@ -84,12 +94,6 @@ public class MainActivity extends AppCompatActivity {
         toolbar.setTitle("ToolBar");
         // 设置ToolBar副标题
         toolbar.setSubtitle("this is toolbar");
-        // 设置navigation button
-        //toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.icon_lines,null));
-        // 设置Logo图标
-        //toolbar.setLogo(getResources().getDrawable(R.drawable.ic_launcher_background,null));
-        // 设置溢出菜单的图标
-        //toolbar.setOverflowIcon(getResources().getDrawable(R.drawable.icon_topright,null));
         // 设置Menu
         setSupportActionBar(toolbar);
         //侧滑抽屉
@@ -138,15 +142,16 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
-            case R.id.all_bar:
-                //选择书架
+            case R.id.all_bar://选择书架
                 Toast.makeText(MainActivity.this,"书架",Toast.LENGTH_SHORT).show();
                 break;
             case R.id.unfolder_bar:
                 Toast.makeText(MainActivity.this,"展开",Toast.LENGTH_SHORT).show();
                 break;
-            case R.id.search_bar:
-                Toast.makeText(MainActivity.this,"搜索",Toast.LENGTH_SHORT).show();
+            case R.id.search_bar://搜索
+                Intent intentSearch=new Intent(MainActivity.this,SearchActivity.class);
+                searchDataLauncher.launch(intentSearch);
+                //Toast.makeText(MainActivity.this,"搜索",Toast.LENGTH_SHORT).show();
                 break;
             default:
                 Toast.makeText(MainActivity.this,"其他",Toast.LENGTH_SHORT).show();
