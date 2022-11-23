@@ -8,7 +8,8 @@ public class Book implements Serializable {
     public String author;
     public String publisher;
     public String pubdate;
-
+    public String label;
+    private String state;
     //构造函数，封面和标题即可确定一本书
     public Book(String title, int resourceId) {
         this.title=title;
@@ -33,4 +34,10 @@ public class Book implements Serializable {
 
     public String getPubdate(){return pubdate;}
     public void setPubdate(String pubdate1){pubdate=pubdate1;}
+
+    public String getLabel() {return label;}
+    public void setLabel(String label1) {this.label = label1;}
+
+    public String getState() {return state;}
+    public void setState(String state) {this.state = state;}
 }

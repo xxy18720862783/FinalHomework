@@ -18,6 +18,8 @@ public class ShowDetailActivity extends AppCompatActivity {
     public String author;
     public String publisher;
     public String pubdate;
+    public String label;
+    public String state;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,18 +30,24 @@ public class ShowDetailActivity extends AppCompatActivity {
         @SuppressLint({"MissingInflatedId", "LocalSuppress"}) TextView textView2=findViewById(R.id.textview2);
         @SuppressLint({"MissingInflatedId", "LocalSuppress"}) TextView textView3=findViewById(R.id.textview3);
         @SuppressLint({"MissingInflatedId", "LocalSuppress"}) TextView textView4=findViewById(R.id.textview4);
+        @SuppressLint({"MissingInflatedId", "LocalSuppress"}) TextView textView5=findViewById(R.id.textview5);
+        @SuppressLint({"MissingInflatedId", "LocalSuppress"}) TextView textView6=findViewById(R.id.textview6);
 
         recourseId=this.getIntent().getIntExtra("resourceId",0);
         title=this.getIntent().getStringExtra("title");
         author=this.getIntent().getStringExtra("author");
         publisher=this.getIntent().getStringExtra("publisher");
         pubdate=this.getIntent().getStringExtra("pubdate");
+        label=this.getIntent().getStringExtra("label");
+        state=this.getIntent().getStringExtra("state");
 
         imageView.setImageResource(recourseId);
-        textView1.setText("Title: "+title);
-        textView2.setText("Author: "+author);
-        textView3.setText("Publisher: "+publisher);
-        textView4.setText("Pubdate: "+pubdate);
+        textView1.setText(title);
+        textView2.setText(author);
+        textView3.setText(publisher);
+        textView4.setText(pubdate);
+        textView5.setText(label);
+        textView6.setText(state);
 
         @SuppressLint({"MissingInflatedId", "LocalSuppress"})
         Button button=findViewById(R.id.showdetail_button);

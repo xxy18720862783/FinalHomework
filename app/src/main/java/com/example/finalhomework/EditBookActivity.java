@@ -22,19 +22,24 @@ public class EditBookActivity extends AppCompatActivity {
         String author=this.getIntent().getStringExtra("author");
         String publisher=this.getIntent().getStringExtra("publisher");
         String pubdate=this.getIntent().getStringExtra("pubdate");
+        String label=this.getIntent().getStringExtra("label");
+        String state=this.getIntent().getStringExtra("state");
 
         @SuppressLint({"MissingInflatedId", "LocalSuppress"})
         EditText editText1=findViewById(R.id.edit_title);
         EditText editText2=findViewById(R.id.edit_author);
         EditText editText3=findViewById(R.id.edit_publisher);
         EditText editText4=findViewById(R.id.edit_pubdate);
-
+        @SuppressLint({"MissingInflatedId", "LocalSuppress"}) EditText editText5=findViewById(R.id.edit_label);
+        @SuppressLint({"MissingInflatedId", "LocalSuppress"}) EditText editText6=findViewById(R.id.edit_state);
         if(null!=title)
         {
             editText1.setText(title);
             editText2.setText(author);
             editText3.setText(publisher);
             editText4.setText(pubdate);
+            editText5.setText(label);
+            editText6.setText(state);
         }
 
         @SuppressLint({"MissingInflatedId", "LocalSuppress"})
@@ -48,6 +53,8 @@ public class EditBookActivity extends AppCompatActivity {
                 bundle.putString("author",editText2.getText().toString());
                 bundle.putString("publisher",editText3.getText().toString());
                 bundle.putString("pubdate",editText4.getText().toString());
+                bundle.putString("label",editText5.getText().toString());
+                bundle.putString("state",editText6.getText().toString());
                 bundle.putInt("position",position);
 
                 intent.putExtras(bundle);

@@ -54,11 +54,15 @@ public class MainActivity extends AppCompatActivity {
                         String author=bundle.getString("author");
                         String publisher=bundle.getString("publisher");
                         String pubdate=bundle.getString("pubdate");
+                        String label=bundle.getString("label");
+                        String state=bundle.getString("state");
                         int position=bundle.getInt("position");
                         Book book=new Book(title,R.drawable.book_no_name);
                         book.setAuthor(author);
                         book.setPublisher(publisher);
                         book.setPubdate(pubdate);
+                        book.setLabel(label);
+                        book.setState(state);
                         books.add(book);
                         new DataSaver().Save(this,books);
                         myAdapater.notifyItemInserted(position);
@@ -76,11 +80,15 @@ public class MainActivity extends AppCompatActivity {
                         String author=bundle.getString("author");
                         String publisher=bundle.getString("publisher");
                         String pubdate=bundle.getString("pubdate");
+                        String label=bundle.getString("label");
+                        String state=bundle.getString("state");
                         int position=bundle.getInt("position");
                         books.get(position).setTitle(title);
                         books.get(position).setAuthor(author);
                         books.get(position).setPublisher(publisher);
                         books.get(position).setPubdate(pubdate);
+                        books.get(position).setLabel(label);
+                        books.get(position).setState(state);
                         new DataSaver().Save(this,books);
                         myAdapater.notifyItemChanged(position);
                     }
@@ -95,6 +103,49 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             });
+    //初始化数据
+    public void InitBookList(){
+        Book book1=new Book("软件项目管理案例教程（第4版）", R.drawable.book_2);
+        book1.setAuthor("张三");book1.setPublisher("中信出版社");book1.setPubdate("2022-1");book1.setLabel("专业用书");book1.setState("未开始");
+        Book book2=new Book("信息安全数学基础（第2版）", R.drawable.book_1);
+        book2.setAuthor("张三");book2.setPublisher("中信出版社");book2.setPubdate("2022-1");book2.setLabel("专业用书");book2.setState("已开始");
+        Book book3=new Book("创新工程实践", R.drawable.book_no_name);
+        book3.setAuthor("张三");book3.setPublisher("中信出版社");book3.setPubdate("2022-1");book3.setLabel("专业用书");book3.setState("已完成");
+        if(books.size()==0) {
+            books.add(book1);
+            books.add(book2);
+            books.add(book3);
+        }
+    }
+
+    public void goToShowdetail(int position){
+        Intent intentShow=new Intent(MainActivity.this,ShowDetailActivity.class);
+        intentShow.putExtra("resourceId",books.get(position).getCoverResourceId());
+        intentShow.putExtra("title",books.get(position).getTitle());
+        intentShow.putExtra("author",books.get(position).getAuthor());
+        intentShow.putExtra("publisher",books.get(position).getPublisher());
+        intentShow.putExtra("pubdate",books.get(position).getPubdate());
+        intentShow.putExtra("label",books.get(position).getLabel());
+        intentShow.putExtra("state",books.get(position).getState());
+        showDetailLauncher.launch(intentShow);
+    }
+    public void editBook(int position){
+        Intent intentUpdate=new Intent(this,EditBookActivity.class);
+        intentUpdate.putExtra("position",position);
+        intentUpdate.putExtra("title",books.get(position).getTitle());
+        intentUpdate.putExtra("author",books.get(position).getAuthor());
+        intentUpdate.putExtra("publisher",books.get(position).getPublisher());
+        intentUpdate.putExtra("pubdate",books.get(position).getPubdate());
+        intentUpdate.putExtra("label",books.get(position).getLabel());
+        intentUpdate.putExtra("state",books.get(position).getState());
+        updateDataLauncher.launch(intentUpdate);
+    }
+    public void addBook(){
+        Intent intentAdd=new Intent(MainActivity.this,EditBookActivity.class);
+        intentAdd.putExtra("position",books.size());
+        addDataLauncher.launch(intentAdd);
+    }
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,18 +177,8 @@ public class MainActivity extends AppCompatActivity {
         //数据载入
         DataSaver dataSaver=new DataSaver();
         books=dataSaver.Load(this);
-        //构造一些数据
-        Book book1=new Book("软件项目管理案例教程（第4版）", R.drawable.book_2);
-        book1.setAuthor("张三");book1.setPublisher("中信出版社");book1.setPubdate("2022-1");
-        Book book2=new Book("信息安全数学基础（第2版）", R.drawable.book_1);
-        book2.setAuthor("张三");book2.setPublisher("中信出版社");book2.setPubdate("2022-1");
-        Book book3=new Book("创新工程实践", R.drawable.book_no_name);
-        book3.setAuthor("张三");book3.setPublisher("中信出版社");book3.setPubdate("2022-1");
-        if(books.size()==0) {
-            books.add(book1);
-            books.add(book2);
-            books.add(book3);
-        }
+        //初始化数据
+        InitBookList();
         myAdapater=new MyAdapater(books);
         recyclerView.setAdapter(myAdapater);
         //悬浮加法按钮
@@ -145,22 +186,11 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intentAdd=new Intent(MainActivity.this,EditBookActivity.class);
-                intentAdd.putExtra("position",books.size());
-                addDataLauncher.launch(intentAdd);
+                addBook();
             }
         });
     }
 
-    public void goToShowdetail(int position){
-        Intent intentShow=new Intent(MainActivity.this,ShowDetailActivity.class);
-        intentShow.putExtra("resourceId",books.get(position).getCoverResourceId());
-        intentShow.putExtra("title",books.get(position).getTitle());
-        intentShow.putExtra("author",books.get(position).getAuthor());
-        intentShow.putExtra("publisher",books.get(position).getPublisher());
-        intentShow.putExtra("pubdate",books.get(position).getPubdate());
-        showDetailLauncher.launch(intentShow);
-    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.toolbar_menu,menu);
@@ -254,13 +284,7 @@ public class MainActivity extends AppCompatActivity {
                 myAdapater.notifyItemInserted(item.getOrder());
                 break;
             case MENU_ID_UPDATE://修改
-                Intent intentUpdate=new Intent(this,EditBookActivity.class);
-                intentUpdate.putExtra("position",item.getOrder());
-                intentUpdate.putExtra("title",books.get(item.getOrder()).getTitle());
-                intentUpdate.putExtra("author",books.get(item.getOrder()).getAuthor());
-                intentUpdate.putExtra("publisher",books.get(item.getOrder()).getPublisher());
-                intentUpdate.putExtra("pubdate",books.get(item.getOrder()).getPubdate());
-                updateDataLauncher.launch(intentUpdate);
+                editBook(item.getOrder());
                 break;
             case MENU_ID_DELETE://删除
                 AlertDialog alertDialog=new AlertDialog.Builder(this)
