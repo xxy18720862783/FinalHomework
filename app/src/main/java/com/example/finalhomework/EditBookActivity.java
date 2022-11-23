@@ -19,23 +19,35 @@ public class EditBookActivity extends AppCompatActivity {
 
         position= this.getIntent().getIntExtra("position",0);
         String title=this.getIntent().getStringExtra("title");
+        String author=this.getIntent().getStringExtra("author");
+        String publisher=this.getIntent().getStringExtra("publisher");
+        String pubdate=this.getIntent().getStringExtra("pubdate");
 
         @SuppressLint({"MissingInflatedId", "LocalSuppress"})
-        EditText editTextTitle=findViewById(R.id.edit_title);
+        EditText editText1=findViewById(R.id.edit_title);
+        EditText editText2=findViewById(R.id.edit_author);
+        EditText editText3=findViewById(R.id.edit_publisher);
+        EditText editText4=findViewById(R.id.edit_pubdate);
 
         if(null!=title)
         {
-            editTextTitle.setText(title);
+            editText1.setText(title);
+            editText2.setText(author);
+            editText3.setText(publisher);
+            editText4.setText(pubdate);
         }
 
         @SuppressLint({"MissingInflatedId", "LocalSuppress"})
-        Button buttonOk=findViewById(R.id.button_ok);
+        Button buttonOk=findViewById(R.id.edit_determine);
         buttonOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent=new Intent();
                 Bundle bundle=new Bundle();
-                bundle.putString("title",editTextTitle.getText().toString());
+                bundle.putString("title",editText1.getText().toString());
+                bundle.putString("author",editText2.getText().toString());
+                bundle.putString("publisher",editText3.getText().toString());
+                bundle.putString("pubdate",editText4.getText().toString());
                 bundle.putInt("position",position);
 
                 intent.putExtras(bundle);
@@ -44,7 +56,7 @@ public class EditBookActivity extends AppCompatActivity {
             }
         });
         @SuppressLint({"MissingInflatedId", "LocalSuppress"})
-        Button buttonNo=findViewById(R.id.button_no);
+        Button buttonNo=findViewById(R.id.edit_cancel);
         buttonNo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

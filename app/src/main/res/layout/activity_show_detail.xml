@@ -4,32 +4,52 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="150dp"
+    android:layout_height="match_parent"
     tools:context=".ShowDetailActivity">
+
     <LinearLayout
         android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="100dp">
+        android:layout_width="wrap_content"
+        android:layout_height="200dp">
         <ImageView
-            android:id="@+id/showdetail_imageview"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:src="@drawable/book">
-
+            android:id="@+id/imageview_cover"
+            android:layout_width="100dp"
+            android:layout_height="200dp">
         </ImageView>
-        <TextView
-            android:id="@+id/showdetail_textview"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:layout_weight="1">
 
-        </TextView>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="300dp"
+            android:layout_height="200dp">
+            <TextView
+                android:id="@+id/textview1"
+                android:layout_width="300dp"
+                android:layout_height="50dp">
+            </TextView>
+            <TextView
+                android:id="@+id/textview2"
+                android:layout_width="300dp"
+                android:layout_height="50dp">
+            </TextView>
+            <TextView
+                android:id="@+id/textview3"
+                android:layout_width="300dp"
+                android:layout_height="50dp">
+            </TextView>
+            <TextView
+                android:id="@+id/textview4"
+                android:layout_width="300dp"
+                android:layout_height="50dp">
+            </TextView>
+
+        </LinearLayout>
     </LinearLayout>
+
     <Button
         android:id="@+id/showdetail_button"
-        android:layout_width="match_parent"
-        android:layout_height="50dp">
-
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:layout_gravity="end|bottom"
+        android:text="@string/str_back">
     </Button>
 </LinearLayout>

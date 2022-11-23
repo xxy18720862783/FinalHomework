@@ -13,28 +13,39 @@ import android.widget.Toast;
 
 public class ShowDetailActivity extends AppCompatActivity {
     public static final int RESULT_CODE_SUCCESS = 777;
-    public String title;
     public int recourseId;
+    public String title;
+    public String author;
+    public String publisher;
+    public String pubdate;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_detail);
 
-        Toast.makeText(ShowDetailActivity.this,"显示",Toast.LENGTH_SHORT).show();
+        @SuppressLint({"MissingInflatedId", "LocalSuppress"}) ImageView imageView=findViewById(R.id.imageview_cover);
+        @SuppressLint({"MissingInflatedId", "LocalSuppress"}) TextView textView1=findViewById(R.id.textview1);
+        @SuppressLint({"MissingInflatedId", "LocalSuppress"}) TextView textView2=findViewById(R.id.textview2);
+        @SuppressLint({"MissingInflatedId", "LocalSuppress"}) TextView textView3=findViewById(R.id.textview3);
+        @SuppressLint({"MissingInflatedId", "LocalSuppress"}) TextView textView4=findViewById(R.id.textview4);
 
-        @SuppressLint({"MissingInflatedId", "LocalSuppress"})
-        ImageView imageView=findViewById(R.id.showdetail_imageview);
-        @SuppressLint({"MissingInflatedId", "LocalSuppress"})
-        TextView textView=findViewById(R.id.showdetail_textview);
-        title=this.getIntent().getStringExtra("title");
         recourseId=this.getIntent().getIntExtra("resourceId",0);
+        title=this.getIntent().getStringExtra("title");
+        author=this.getIntent().getStringExtra("author");
+        publisher=this.getIntent().getStringExtra("publisher");
+        pubdate=this.getIntent().getStringExtra("pubdate");
+
+        imageView.setImageResource(recourseId);
+        textView1.setText("Title: "+title);
+        textView2.setText("Author: "+author);
+        textView3.setText("Publisher: "+publisher);
+        textView4.setText("Pubdate: "+pubdate);
+
         @SuppressLint({"MissingInflatedId", "LocalSuppress"})
         Button button=findViewById(R.id.showdetail_button);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                textView.setText(title);
-                imageView.setImageResource(recourseId);
                 setResult(RESULT_CODE_SUCCESS);
                 ShowDetailActivity.this.finish();
             }

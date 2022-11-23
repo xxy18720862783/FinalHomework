@@ -6,4 +6,9 @@
     <string name="string_yes">是</string>
     <string name="str_confirm">确定</string>
     <string name="str_cancel">取消</string>
+    <string name="str_back">返回</string>
+    <string name="str_bookshelf">书架</string>
+    <string name="str_unfold">展开</string>
+    <string name="str_search">搜索</string>
+    <string name="str_more">更多</string>
 </resources>

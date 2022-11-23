@@ -2,22 +2,44 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="100dp">
 
     <ImageView
         android:id="@+id/imageview_cover"
-        android:layout_width="match_parent"
+        android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_weight="1"
         tools:srcCompat="@tools:sample/avatars" />
 
-    <TextView
-        android:id="@+id/textview_title"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_weight="1"
-        android:gravity="center_vertical"
-        android:text="TextView" />
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="300dp"
+        android:layout_height="100dp">
+        <TextView
+            android:id="@+id/textview_title"
+            android:layout_width="300dp"
+            android:layout_height="50dp">
+        </TextView>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="300dp"
+            android:layout_height="50dp">
+            <TextView
+                android:id="@+id/textview_author_publisher"
+                android:layout_width="200dp"
+                android:layout_height="50dp">
 
+            </TextView>
+            <TextView
+                android:id="@+id/textview_pubdate"
+                android:layout_width="100dp"
+                android:layout_height="50dp">
+
+            </TextView>
+
+        </LinearLayout>
+
+    </LinearLayout>
 </LinearLayout>

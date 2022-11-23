@@ -37,11 +37,12 @@
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/fab"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="end|bottom"
                 android:src="@drawable/icon_add"/>
         </LinearLayout>
+
         <!--左侧抽屉菜单-->
         <com.google.android.material.navigation.NavigationView
             android:id="@+id/nav_view"

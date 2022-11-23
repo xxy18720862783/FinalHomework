@@ -2,24 +2,28 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/all_bar"
+        android:id="@+id/toolbar_all"
         android:icon="@drawable/icon_all"
-        android:title="书架"
-        app:showAsAction="always"/>
-    <item
-        android:id="@+id/unfolder_bar"
-        android:icon="@drawable/icon_unfolder"
-        android:title="展开"
+        android:title="@string/str_bookshelf"
         app:showAsAction="always"/>
 
     <item
-        android:id="@+id/search_bar"
-        android:icon="@drawable/icon_search"
-        android:title="搜索"
+        android:id="@+id/toolbar_unfold"
+        android:icon="@drawable/icon_unfolder"
+        android:title="@string/str_unfold"
         app:showAsAction="always"/>
+
     <item
-        android:id="@+id/topright_bar"
+        android:id="@+id/toolbar_search"
+        android:title="@string/str_search"
+        android:icon="@drawable/icon_search"
+        app:actionViewClass="android.widget.SearchView"
+
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/toolbar_more"
         android:icon="@drawable/icon_topright"
-        android:title="其他"
+        android:title="@string/str_more"
         app:showAsAction="never"/>
 </menu>
