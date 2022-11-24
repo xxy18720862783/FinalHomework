@@ -4,17 +4,28 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@drawable/mainbackground">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_main"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="?attr/colorSecondary"
+        android:background="@color/blue"
         app:subtitleTextColor="#FFF"
         app:titleTextColor="#FFF"
         tools:ignore="MissingConstraints"
         app:contentInsetStartWithNavigation="0dp">
+        <Spinner
+            android:id="@+id/spinner_label"
+            android:layout_width="100dp"
+            android:layout_height="50dp">
+        </Spinner>
+        <Spinner
+            android:id="@+id/spinner_state"
+            android:layout_width="100dp"
+            android:layout_height="50dp">
+        </Spinner>
     </androidx.appcompat.widget.Toolbar>
 
     <androidx.drawerlayout.widget.DrawerLayout
@@ -48,7 +59,8 @@
             android:id="@+id/nav_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_gravity="start">
+            android:layout_gravity="start"
+            android:background="@drawable/drawer_background">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -69,6 +81,7 @@
                         android:layout_height="100dp"
                         android:orientation="vertical">
                         <LinearLayout
+                            android:id="@+id/drawer_books"
                             android:layout_width="match_parent"
                             android:layout_height="50dp"
                             android:orientation="horizontal">
@@ -78,71 +91,66 @@
                                 android:layout_height="50dp">
                             </ImageView>
                             <TextView
-                                android:text="Books"
+                                android:text="@string/str_books"
                                 android:layout_width="100dp"
                                 android:layout_height="50dp">
                             </TextView>
                         </LinearLayout>
-                        <LinearLayout
+
+                        <android.widget.SearchView
+                            android:id="@+id/drawer_search"
                             android:layout_width="match_parent"
-                            android:layout_height="50dp"
-                            android:orientation="horizontal">
-                            <ImageView
-                                android:src="@drawable/icon_search"
-                                android:layout_width="100dp"
-                                android:layout_height="50dp">
-                            </ImageView>
-                            <TextView
-                                android:text="Search"
-                                android:layout_width="100dp"
-                                android:layout_height="50dp">
-                            </TextView>
-                        </LinearLayout>
+                            android:layout_height="50dp">
+                        </android.widget.SearchView>
+
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
-                        <TextView
-                            android:text="Labels"
-                            android:textSize="30sp"
-                            android:layout_width="match_parent"
-                            android:layout_height="50dp">
-                        </TextView>
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="100dp"
                             android:orientation="vertical">
                             <LinearLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="50dp"
+                                android:layout_height="wrap_content"
                                 android:orientation="horizontal">
                                 <ImageView
                                     android:src="@drawable/icon_label"
                                     android:layout_width="100dp"
                                     android:layout_height="50dp">
                                 </ImageView>
-                                <TextView
-                                    android:text="Law"
-                                    android:layout_width="100dp"
-                                    android:layout_height="50dp">
-                                </TextView>
-                            </LinearLayout>
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="50dp"
-                                android:orientation="horizontal">
-                                <ImageView
-                                    android:src="@drawable/icon_addlabel"
-                                    android:layout_width="100dp"
-                                    android:layout_height="50dp">
-                                </ImageView>
-                                <TextView
-                                    android:text="Create New Laws"
-                                    android:layout_width="100dp"
-                                    android:layout_height="50dp">
-                                </TextView>
+                                <LinearLayout
+                                    android:orientation="vertical"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content">
+                                    <TextView
+                                        android:text="@string/str_label"
+                                        android:textSize="30sp"
+                                        android:layout_width="200dp"
+                                        android:layout_height="50dp">
+                                    </TextView>
+                                    <LinearLayout
+                                        android:layout_width="200dp"
+                                        android:layout_height="50dp"
+                                        android:orientation="horizontal">
+
+                                        <ImageView
+                                            android:layout_width="50dp"
+                                            android:layout_height="25dp"
+                                            android:src="@drawable/icon_addlabel">
+                                        </ImageView>
+                                        <TextView
+                                            android:text="@string/str_createlabel"
+                                            android:textSize="15sp"
+                                            android:layout_width="100dp"
+                                            android:layout_height="25dp">
+                                        </TextView>
+                                    </LinearLayout>
+
+                                </LinearLayout>
                             </LinearLayout>
                         </LinearLayout>
                     </LinearLayout>

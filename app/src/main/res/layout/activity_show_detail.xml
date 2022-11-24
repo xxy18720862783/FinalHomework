@@ -27,6 +27,7 @@
                 android:layout_height="50dp">
                 <TextView
                     android:text="@string/str_title"
+                    android:textColor="@color/red"
                     android:layout_width="100dp"
                     android:layout_height="50dp">
                 </TextView>
@@ -42,6 +43,7 @@
                 android:layout_height="50dp">
                 <TextView
                     android:text="@string/str_author"
+                    android:textColor="@color/red"
                     android:layout_width="100dp"
                     android:layout_height="50dp">
                 </TextView>
@@ -57,6 +59,7 @@
                 android:layout_height="50dp">
                 <TextView
                     android:text="@string/str_publisher"
+                    android:textColor="@color/red"
                     android:layout_width="100dp"
                     android:layout_height="50dp">
                 </TextView>
@@ -72,6 +75,7 @@
                 android:layout_height="50dp">
                 <TextView
                     android:text="@string/str_pubdate"
+                    android:textColor="@color/red"
                     android:layout_width="100dp"
                     android:layout_height="50dp">
                 </TextView>
@@ -92,6 +96,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:textColor="@color/red"
             android:text="@string/str_details">
         </TextView>
         <LinearLayout
@@ -100,13 +105,15 @@
             android:layout_height="50dp">
             <TextView
                 android:text="@string/str_label"
-                android:layout_width="200dp"
-                android:layout_height="50dp">
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1">
             </TextView>
             <TextView
                 android:id="@+id/textview5"
-                android:layout_width="200dp"
-                android:layout_height="50dp">
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="2">
             </TextView>
         </LinearLayout>
         <LinearLayout
@@ -116,12 +123,14 @@
 
             <TextView
                 android:text="@string/str_readingstate"
-                android:layout_width="200dp"
-                android:layout_height="50dp" />
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"/>
             <TextView
                 android:id="@+id/textview6"
-                android:layout_width="200dp"
-                android:layout_height="50dp">
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="2">
             </TextView>
         </LinearLayout>
     </LinearLayout>
@@ -133,4 +142,5 @@
         android:layout_gravity="end|bottom"
         android:text="@string/str_back">
     </Button>
+
 </LinearLayout>

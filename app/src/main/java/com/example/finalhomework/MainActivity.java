@@ -1,5 +1,7 @@
 package com.example.finalhomework;
 
+import static java.security.AccessController.getContext;
+
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
@@ -24,8 +26,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.SearchView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,8 +46,11 @@ public class MainActivity extends AppCompatActivity {
     public static final int MENU_ID_ADD=1;
     public static final int MENU_ID_UPDATE=2;
     public static final int MENU_ID_DELETE=3;
-    public static ArrayList<Book> books;//书本列表
+    public static ArrayList<Book> books=new ArrayList<>();//书本列表
+    public ArrayList<Book> data=new ArrayList<>();//临时列表
     private MyAdapater myAdapater;
+    private RecyclerView recyclerView;
+    private ArrayAdapter<String> label_adapater;
     //增加
     private final ActivityResultLauncher<Intent> addDataLauncher=registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
             result -> {
@@ -117,7 +126,6 @@ public class MainActivity extends AppCompatActivity {
             books.add(book3);
         }
     }
-
     public void goToShowdetail(int position){
         Intent intentShow=new Intent(MainActivity.this,ShowDetailActivity.class);
         intentShow.putExtra("resourceId",books.get(position).getCoverResourceId());
@@ -145,6 +153,74 @@ public class MainActivity extends AppCompatActivity {
         intentAdd.putExtra("position",books.size());
         addDataLauncher.launch(intentAdd);
     }
+    public void searchBook(SearchView searchView){
+        searchView.setSubmitButtonEnabled(true);// 在右侧添加提交按钮
+        searchView.setOnSearchClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Toast.makeText(MainActivity.this,"打开搜索框",Toast.LENGTH_LONG).show();
+            }
+        });
+        //文本监听
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                int i=0;
+                for(;i<books.size();i++){
+                    if(books.get(i).getTitle().equals(s)){
+                        Toast.makeText(MainActivity.this, "已经找到对应书籍", Toast.LENGTH_SHORT).show();
+                        goToShowdetail(i);
+                        break;
+                    }
+                }
+                if(i==books.size()){
+                    Toast.makeText(MainActivity.this, "库中没有此书", Toast.LENGTH_SHORT).show();
+                }
+                return false;
+            }
+            @Override
+            public boolean onQueryTextChange(String s) {
+                return false;
+            }
+        });
+        //关闭
+        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                Toast.makeText(MainActivity.this, "关闭搜索框", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        });
+    }
+//    public void initSpinnerState(){
+//        ArrayList<String> starArray = new ArrayList<>();
+//        starArray.add("未开始");
+//        starArray.add("已开始");
+//        starArray.add("已完成");
+//        label_adapater=new ArrayAdapter<String>(MainActivity.this,R.layout.item_select,starArray);
+//        //设置数组适配器的布局样式
+//        label_adapater.setDropDownViewResource(R.layout.item_drapdowm);
+//        Spinner spinner = (Spinner) findViewById(R.id.spinner_state);
+//        spinner.setAdapter(label_adapater);
+//        //设置下拉框默认的显示第一项
+//        spinner.setSelection(0);
+//        //给下拉框设置选择监听器，一旦用户选中某一项，就触发监听器的onItemSelected方法
+//        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                data.clear();
+//                for(int i=0;i<books.size();i++){
+//                    if(books.get(i).getState().equals(starArray.get(position))){
+//                        data.add(books.get(i));
+//                    }
+//                }
+//                myAdapater.notifyDataSetChanged();
+//            }
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//            }
+//        });
+//    }
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -152,35 +228,44 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);//setContentView之前调用，否则报错
         setContentView(R.layout.activity_main);
-        //工具栏
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_main);
-        // 设置ToolBar标题
-        toolbar.setTitle("ToolBar");
-        // 设置ToolBar副标题
-        toolbar.setSubtitle("this is toolbar");
-        // 添加Toolbar
-        setSupportActionBar(toolbar);
+        //数据数组初始化及上次数据载入
+        books=new ArrayList<>();
+        DataSaver dataSaver=new DataSaver();
+        books=dataSaver.Load(this);
+        InitBookList();
+        data.addAll(books);
+        //
+        //initSpinnerState();
+        //recyclerView
+        RecyclerView recyclerView=findViewById(R.id.recyclerview_main);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(MainActivity.this);
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(layoutManager);
+        myAdapater=new MyAdapater(data);
+        recyclerView.setAdapter(myAdapater);
+        //Toolbar
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_main);//工具栏
+        toolbar.setTitle("ToolBar");//工具栏标题
+        toolbar.setSubtitle("this is toolbar");//工具栏副标题
+        setSupportActionBar(toolbar);//添加工具栏
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         //侧滑抽屉
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_main);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, 0, 0);
-        //drawer.setDrawerListener(toggle);
         toggle.syncState();
-        //recyclerView
-        RecyclerView recyclerView=findViewById(R.id.recyclerview_main);
-        //布局
-        LinearLayoutManager layoutManager = new LinearLayoutManager(MainActivity.this);
-        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        recyclerView.setLayoutManager(layoutManager);
-        //数据数组初始化
-        books=new ArrayList<>();
-        //数据载入
-        DataSaver dataSaver=new DataSaver();
-        books=dataSaver.Load(this);
-        //初始化数据
-        InitBookList();
-        myAdapater=new MyAdapater(books);
-        recyclerView.setAdapter(myAdapater);
+        //侧滑抽屉-列表
+        LinearLayout layout1=findViewById(R.id.drawer_books);
+        layout1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                drawer.closeDrawer(GravityCompat.START);
+            }
+        });
+        //侧滑抽屉-搜索
+        SearchView drawer_search=findViewById(R.id.drawer_search);
+        searchBook(drawer_search);
+
         //悬浮加法按钮
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -194,51 +279,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.toolbar_menu,menu);
-        // 设置SearchView
+
         MenuItem menuItem = menu.findItem(R.id.toolbar_search);
         if (menuItem != null) {
             // 获取到SearchView（必须在xml item中设置app:actionViewClass="android.widget.SearchView"）
             SearchView searchView = (SearchView) menuItem.getActionView();
-            // 在右侧添加提交按钮
-            searchView.setSubmitButtonEnabled(true);
-            //打开
-            searchView.setOnSearchClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    //Toast.makeText(MainActivity.this,"打开搜索框",Toast.LENGTH_LONG).show();
-                }
-            });
-            //文本监听
-            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-                @Override
-                public boolean onQueryTextSubmit(String s) {
-                    //Toast.makeText(MainActivity.this, "Submit---提交", Toast.LENGTH_SHORT).show();
-                    int i=0;
-                    for(;i<books.size();i++){
-                        if(books.get(i).getTitle().equals(s)){
-                            Toast.makeText(MainActivity.this, "已经找到对应书籍", Toast.LENGTH_SHORT).show();
-                            goToShowdetail(i);
-                            break;
-                        }
-                    }
-                    if(i==books.size()){
-                        Toast.makeText(MainActivity.this, "库中没有此书", Toast.LENGTH_SHORT).show();
-                    }
-                    return false;
-                }
-                @Override
-                public boolean onQueryTextChange(String s) {
-                    return false;
-                }
-            });
-            //关闭
-            searchView.setOnCloseListener(new SearchView.OnCloseListener() {
-                @Override
-                public boolean onClose() {
-                    Toast.makeText(MainActivity.this, "关闭搜索框", Toast.LENGTH_SHORT).show();
-                    return false;
-                }
-            });
+            searchBook(searchView);
         }
         return super.onCreateOptionsMenu(menu);
     }
@@ -246,10 +292,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
-            case R.id.toolbar_all://选择书架
+            case R.id.spinner_state://阅读状态
                 Toast.makeText(MainActivity.this,"书架",Toast.LENGTH_SHORT).show();
                 break;
-            case R.id.toolbar_unfold:
+            case R.id.spinner_label://标签
                 Toast.makeText(MainActivity.this,"展开",Toast.LENGTH_SHORT).show();
                 break;
             case R.id.toolbar_search://搜索
@@ -320,7 +366,6 @@ public class MainActivity extends AppCompatActivity {
             private final TextView textView1;
             private final TextView textView2;
             private final TextView textView3;
-
             public ViewHolder(View view){
                 super(view);
                 imageViewCover=view.findViewById(R.id.imageview_cover);
@@ -330,7 +375,6 @@ public class MainActivity extends AppCompatActivity {
                 //长按事件监听者
                 view.setOnCreateContextMenuListener(this);
             }
-
             public ImageView getImageViewCover(){return imageViewCover;}
             public TextView getTextView1(){return textView1;}
             public TextView getTextView2(){return textView2;}
@@ -349,6 +393,7 @@ public class MainActivity extends AppCompatActivity {
         public MyAdapater(ArrayList<Book> dataSet){
             localDataset=dataSet;
         }
+
         @NonNull
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
