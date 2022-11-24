@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
                         String label=bundle.getString("label");
                         String state=bundle.getString("state");
                         int position=bundle.getInt("position");
-                        Book book=new Book(title,R.drawable.book_no_name);
+                        Book book=new Book(title,R.drawable.book);
                         book.setAuthor(author);
                         book.setPublisher(publisher);
                         book.setPubdate(pubdate);
@@ -192,35 +192,41 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-//    public void initSpinnerState(){
-//        ArrayList<String> starArray = new ArrayList<>();
-//        starArray.add("未开始");
-//        starArray.add("已开始");
-//        starArray.add("已完成");
-//        label_adapater=new ArrayAdapter<String>(MainActivity.this,R.layout.item_select,starArray);
-//        //设置数组适配器的布局样式
-//        label_adapater.setDropDownViewResource(R.layout.item_drapdowm);
-//        Spinner spinner = (Spinner) findViewById(R.id.spinner_state);
-//        spinner.setAdapter(label_adapater);
-//        //设置下拉框默认的显示第一项
-//        spinner.setSelection(0);
-//        //给下拉框设置选择监听器，一旦用户选中某一项，就触发监听器的onItemSelected方法
-//        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                data.clear();
-//                for(int i=0;i<books.size();i++){
-//                    if(books.get(i).getState().equals(starArray.get(position))){
-//                        data.add(books.get(i));
-//                    }
-//                }
-//                myAdapater.notifyDataSetChanged();
-//            }
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parent) {
-//            }
-//        });
-//    }
+    public void initSpinnerState(){
+        ArrayList<String> starArray = new ArrayList<>();
+        starArray.add("全部");
+        starArray.add("未开始");
+        starArray.add("已开始");
+        starArray.add("已完成");
+        label_adapater=new ArrayAdapter<String>(MainActivity.this,R.layout.item_select,starArray);
+        //设置数组适配器的布局样式
+        label_adapater.setDropDownViewResource(R.layout.item_drapdowm);
+        Spinner spinner = (Spinner) findViewById(R.id.spinner_state);
+        spinner.setAdapter(label_adapater);
+        //设置下拉框默认的显示第一项
+        spinner.setSelection(0);
+        //给下拉框设置选择监听器，一旦用户选中某一项，就触发监听器的onItemSelected方法
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                data.clear();
+                if(starArray.get(position).equals("全部")){
+                    data.addAll(books);
+                }
+                else{
+                    for(int i=0;i<books.size();i++){
+                        if(books.get(i).getState().equals(starArray.get(position))){
+                            data.add(books.get(i));
+                        }
+                    }
+                }
+                myAdapater.notifyDataSetChanged();
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+    }
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -234,8 +240,8 @@ public class MainActivity extends AppCompatActivity {
         books=dataSaver.Load(this);
         InitBookList();
         data.addAll(books);
-        //
-        //initSpinnerState();
+        //通过阅读状态筛选书籍
+        initSpinnerState();
         //recyclerView
         RecyclerView recyclerView=findViewById(R.id.recyclerview_main);
         LinearLayoutManager layoutManager = new LinearLayoutManager(MainActivity.this);
