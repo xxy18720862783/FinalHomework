@@ -42,15 +42,17 @@ import com.example.finalhomework.data.DataSaver;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
     public static final int MENU_ID_ADD=1;
     public static final int MENU_ID_UPDATE=2;
     public static final int MENU_ID_DELETE=3;
     public static ArrayList<Book> books=new ArrayList<>();//书本列表
-    public ArrayList<Book> data=new ArrayList<>();//临时列表
+    public ArrayList<Book> data1=new ArrayList<>();//临时列表1
+    public ArrayList<Book> data2=new ArrayList<>();//临时列表2
     private MyAdapater myAdapater;
     private RecyclerView recyclerView;
     private ArrayAdapter<String> label_adapater;
+    private ArrayAdapter<String> state_adapater;
     //增加
     private final ActivityResultLauncher<Intent> addDataLauncher=registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
             result -> {
@@ -158,7 +160,6 @@ public class MainActivity extends AppCompatActivity {
         searchView.setOnSearchClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Toast.makeText(MainActivity.this,"打开搜索框",Toast.LENGTH_LONG).show();
             }
         });
         //文本监听
@@ -193,30 +194,30 @@ public class MainActivity extends AppCompatActivity {
         });
     }
     public void initSpinnerState(){
-        ArrayList<String> starArray = new ArrayList<>();
-        starArray.add("全部");
-        starArray.add("未开始");
-        starArray.add("已开始");
-        starArray.add("已完成");
-        label_adapater=new ArrayAdapter<String>(MainActivity.this,R.layout.item_select,starArray);
-        //设置数组适配器的布局样式
-        label_adapater.setDropDownViewResource(R.layout.item_drapdowm);
+        ArrayList<String> stateArray = new ArrayList<>();
+        stateArray.add("全部");
+        stateArray.add("未开始");
+        stateArray.add("已开始");
+        stateArray.add("已完成");
+        state_adapater=new ArrayAdapter<String>(MainActivity.this,R.layout.item_select,stateArray);
+        state_adapater.setDropDownViewResource(R.layout.item_drapdowm);
         Spinner spinner = (Spinner) findViewById(R.id.spinner_state);
-        spinner.setAdapter(label_adapater);
+        //Spinner spinner = (Spinner) findViewById(R.id.toolbar_spinner);
+        spinner.setAdapter(state_adapater);
         //设置下拉框默认的显示第一项
-        spinner.setSelection(0);
+        //spinner.setSelection(0,true);
         //给下拉框设置选择监听器，一旦用户选中某一项，就触发监听器的onItemSelected方法
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                data.clear();
-                if(starArray.get(position).equals("全部")){
-                    data.addAll(books);
+                data1.clear();
+                if(stateArray.get(position).equals("全部")){
+                    data1.addAll(books);
                 }
                 else{
                     for(int i=0;i<books.size();i++){
-                        if(books.get(i).getState().equals(starArray.get(position))){
-                            data.add(books.get(i));
+                        if(books.get(i).getState().equals(stateArray.get(position))){
+                            data1.add(books.get(i));
                         }
                     }
                 }
@@ -227,7 +228,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -239,7 +239,8 @@ public class MainActivity extends AppCompatActivity {
         DataSaver dataSaver=new DataSaver();
         books=dataSaver.Load(this);
         InitBookList();
-        data.addAll(books);
+        data1.addAll(books);
+        data2.addAll(books);
         //通过阅读状态筛选书籍
         initSpinnerState();
         //recyclerView
@@ -247,12 +248,12 @@ public class MainActivity extends AppCompatActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(MainActivity.this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
-        myAdapater=new MyAdapater(data);
+        myAdapater=new MyAdapater(data1);///////////////////////////////////
         recyclerView.setAdapter(myAdapater);
+
         //Toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_main);//工具栏
         toolbar.setTitle("ToolBar");//工具栏标题
-        toolbar.setSubtitle("this is toolbar");//工具栏副标题
         setSupportActionBar(toolbar);//添加工具栏
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         //侧滑抽屉
@@ -271,7 +272,6 @@ public class MainActivity extends AppCompatActivity {
         //侧滑抽屉-搜索
         SearchView drawer_search=findViewById(R.id.drawer_search);
         searchBook(drawer_search);
-
         //悬浮加法按钮
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -281,6 +281,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -298,16 +299,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
-            case R.id.spinner_state://阅读状态
-                Toast.makeText(MainActivity.this,"书架",Toast.LENGTH_SHORT).show();
+            case R.id.toolbar_all:
+                Toast.makeText(MainActivity.this,"all",Toast.LENGTH_SHORT).show();
                 break;
-            case R.id.spinner_label://标签
-                Toast.makeText(MainActivity.this,"展开",Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.toolbar_search://搜索
+            case R.id.toolbar_more:
+                Toast.makeText(MainActivity.this,"更多",Toast.LENGTH_SHORT).show();
                 break;
             default:
-                Toast.makeText(MainActivity.this,"更多",Toast.LENGTH_SHORT).show();
                 break;
         }
         return super.onOptionsItemSelected(item);
